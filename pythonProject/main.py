@@ -95,6 +95,47 @@ def make_ORT2():
 def make_AOR1_K2():
     workbook = xlsxwriter.Workbook('Test2.xlsx')
     worksheet = workbook.add_worksheet()
+    bold = workbook.add_format({'bold': 1})
+
+    header_format = workbook.add_format(
+        {
+            "bold": 1,
+            "border": 1,
+            "text_wrap": 1,
+            "align": "center",
+            "valign": "vcenter",
+            "fg_color": "gray",
+        }
+    )
+
+    cell_format = workbook.add_format(
+        {
+            "border": 1,
+            "text_wrap": 1,
+            "bg_color": "#CCCCCC"
+        }
+    )
+
+    worksheet.set_column("A:A", 14)
+
+    if option == 1:
+        # Prva tabela
+        worksheet.conditional_format('A2:K9', {'type': 'cell',
+                                               'criteria': '>=',
+                                               'value': 0, 'format': cell_format})
+
+        worksheet.write('A1', 'Виртуелна адреса', header_format)
+        worksheet.write('B1', 'Тип', header_format)
+        worksheet.write('C1', 'User', header_format)
+        worksheet.write('D1', 'Segment', header_format)
+        worksheet.write('E1', 'Page', header_format)
+        worksheet.write('F1', 'Word', header_format)
+        worksheet.write('G1', 'Tag', header_format)
+        worksheet.write('H1', 'Entry', header_format)
+        worksheet.write('I1', 'Коментар', header_format)
+        worksheet.write('J1', 'Block', header_format)
+        worksheet.write('K1', 'Физичка адреса', header_format)
+
     workbook.close()
 def make_an_excel_table():
     if subject.get() == 'ORT2':
@@ -109,6 +150,10 @@ combobox_choose_table['state'] = 'readonly'
 combobox_choose_table.pack()
 
 button_generate_table = tkinter.Button(window, text = "Generiši tabelu", command = make_an_excel_table).pack()
+
+option = tkinter.IntVar()
+radiobutton_prva_opcija = tkinter.Radiobutton(window, text="Prva opcija", variable=option, value=1).pack()
+radiobutton_druga_opcija = tkinter.Radiobutton(window, text="Druga opcija", variable=option, value=2).pack()
 
 
 window.mainloop()
