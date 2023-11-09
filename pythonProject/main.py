@@ -1,14 +1,16 @@
 import tkinter
 import tkinter.ttk
+from tkinter import ttk
+
 import xlsxwriter
 
 #Start up
 window = tkinter.Tk()
 window.title("Sheety")
 window.geometry("400x300+300+120")
-title = tkinter.Label(window, text = "ORT2: Ispitna tabela").pack()
+title = tkinter.Label(window, text = "Izaberi predmet:").pack()
 
-def make_an_excel_table():
+def make_ORT2():
     workbook = xlsxwriter.Workbook('Test.xlsx')
     worksheet = workbook.add_worksheet()
     bold = workbook.add_format({'bold': 1})
@@ -32,15 +34,15 @@ def make_an_excel_table():
         }
     )
 
-    #Prva tabela
+    # Prva tabela
     worksheet.set_column("A:A", 5)
     worksheet.set_column("B:B", 30)
     worksheet.set_column("G:G", 12)
     worksheet.set_row(0, 40)
 
     worksheet.conditional_format('A2:H8', {'type': 'cell',
-                                                 'criteria': '>=',
-                                                 'value': 0, 'format': cell_format})
+                                           'criteria': '>=',
+                                           'value': 0, 'format': cell_format})
 
     worksheet.write('A1', '#', header_format)
     worksheet.write('B1', 'Адресе у меморији са којих је учитана инструкција', header_format)
@@ -51,7 +53,7 @@ def make_an_excel_table():
     worksheet.write('G1', 'Инструкција', header_format)
     worksheet.write('H1', 'PC', header_format)
 
-    #Druga tabela
+    # Druga tabela
     worksheet.set_row(11, 40)
 
     for i in range(12, 19):
@@ -60,8 +62,8 @@ def make_an_excel_table():
         worksheet.merge_range(i, 6, i, 7, '')
 
     worksheet.conditional_format('A13:H19', {'type': 'cell',
-                                           'criteria': '>=',
-                                           'value': 0, 'format': cell_format})
+                                             'criteria': '>=',
+                                             'value': 0, 'format': cell_format})
 
     worksheet.write('A12', '#', header_format)
     worksheet.write('B12', 'Адресе у меморији са којих је учитана адреса операнда', header_format)
@@ -69,7 +71,7 @@ def make_an_excel_table():
     worksheet.merge_range('E12:F12', 'Операнд', header_format)
     worksheet.merge_range('G12:H12', 'Нови садржај регистара опште намене', header_format)
 
-    #Treca tabela
+    # Treca tabela
     worksheet.set_row(22, 40)
 
     for i in range(23, 30):
@@ -86,13 +88,28 @@ def make_an_excel_table():
     worksheet.write('E23', 'V', header_format)
     worksheet.write('F23', 'C', header_format)
     worksheet.write('G23', 'Акумулатор', header_format)
-    worksheet.merge_range('H23:J23', 'Нови садржај регистара и меморијских локација који су промењени у овој фази', header_format)
-
+    worksheet.merge_range('H23:J23', 'Нови садржај регистара и меморијских локација који су промењени у овој фази',
+                          header_format)
 
     workbook.close()
+def make_AOR1_K2():
+    workbook = xlsxwriter.Workbook('Test2.xlsx')
+    worksheet = workbook.add_worksheet()
+    workbook.close()
+def make_an_excel_table():
+    if subject.get() == 'ORT2':
+        make_ORT2()
+    elif subject.get() == 'AOR1 K2':
+        make_AOR1_K2()
 
+subject = tkinter.StringVar()
+combobox_choose_table = ttk.Combobox(window, textvariable=subject)
+combobox_choose_table['values'] = ('ORT2', 'AOR1 K2')
+combobox_choose_table['state'] = 'readonly'
+combobox_choose_table.pack()
 
-button_generate_tabel = tkinter.Button(window, text = "Generiši tabelu", command = make_an_excel_table()).pack()
+button_generate_table = tkinter.Button(window, text = "Generiši tabelu", command = make_an_excel_table).pack()
+
 
 window.mainloop()
 
