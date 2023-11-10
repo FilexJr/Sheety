@@ -8,10 +8,9 @@ import xlsxwriter
 window = tkinter.Tk()
 window.title("Sheety")
 window.geometry("400x300+300+120")
-title = tkinter.Label(window, text = "Izaberi predmet:").pack()
 
 def make_ORT2():
-    workbook = xlsxwriter.Workbook('Test.xlsx')
+    workbook = xlsxwriter.Workbook('ORT2.xlsx')
     worksheet = workbook.add_worksheet()
     bold = workbook.add_format({'bold': 1})
 
@@ -95,8 +94,9 @@ def make_ORT2():
     format_vcenter.set_align("center", )
     worksheet.set_column('A:XFD', None, format_vcenter)
     workbook.close()
+
 def make_AOR1_K2():
-    workbook = xlsxwriter.Workbook('Test2.xlsx')
+    workbook = xlsxwriter.Workbook('AOR1 K2.xlsx')
     worksheet = workbook.add_worksheet()
     bold = workbook.add_format({'bold': 1})
 
@@ -189,21 +189,30 @@ def check_for_different_options(event):
         combobox_choose_option['values'] = ()
         combobox_choose_option.set('')
 
+title = tkinter.Label(window, text = "DOBAR DAN!!!").pack()
+
+subject_frame = tkinter.Frame(window)
+subject_frame.pack()
+
+tkinter.Label(subject_frame, text = "Izaberi predmet: ").pack(side='left', padx=5)
 subject = tkinter.StringVar()
-combobox_choose_subject = ttk.Combobox(window, textvariable=subject)
+combobox_choose_subject = ttk.Combobox(subject_frame, textvariable=subject)
 combobox_choose_subject['values'] = ('ORT2', 'AOR1 K2')
 combobox_choose_subject['state'] = 'readonly'
-combobox_choose_subject.pack()
+combobox_choose_subject.pack(side='right')
 combobox_choose_subject.bind('<<ComboboxSelected>>', check_for_different_options)
 
-button_generate_table = tkinter.Button(window, text = "Generiši tabelu", command = make_an_excel_table).pack()
+options_frame = tkinter.Frame(window)
+options_frame.pack()
 
-added_options = tkinter.Label(window, text = "Izaberi dodatne opcije(ako postoje):").pack()
+tkinter.Label(options_frame, text = "Izaberi dodatne opcije(ako postoje):").pack(side='left', padx=5)
 option = tkinter.StringVar()
-combobox_choose_option = ttk.Combobox(window, textvariable=option)
+combobox_choose_option = ttk.Combobox(options_frame, textvariable=option)
 combobox_choose_option['values'] = ()
 combobox_choose_option['state'] = 'readonly'
-combobox_choose_option.pack()
+combobox_choose_option.pack(side='right')
+
+button_generate_table = tkinter.Button(window, text = "Generiši tabelu", command = make_an_excel_table).pack()
 
 window.mainloop()
 
