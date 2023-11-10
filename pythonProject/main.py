@@ -117,44 +117,67 @@ def make_AOR1_K2():
     )
 
     worksheet.set_column("A:A", 14)
+    worksheet.set_column("C:C", 12)
 
-    if option == 1:
-        # Prva tabela
-        worksheet.conditional_format('A2:K9', {'type': 'cell',
-                                               'criteria': '>=',
-                                               'value': 0, 'format': cell_format})
+    # Prva tabela
+    worksheet.conditional_format('A2:K9', {'type': 'cell',
+                                            'criteria': '>=',
+                                            'value': 0, 'format': cell_format})
 
-        worksheet.write('A1', 'Виртуелна адреса', header_format)
-        worksheet.write('B1', 'Тип', header_format)
-        worksheet.write('C1', 'User', header_format)
-        worksheet.write('D1', 'Segment', header_format)
-        worksheet.write('E1', 'Page', header_format)
-        worksheet.write('F1', 'Word', header_format)
-        worksheet.write('G1', 'Tag', header_format)
-        worksheet.write('H1', 'Entry', header_format)
-        worksheet.write('I1', 'Коментар', header_format)
-        worksheet.write('J1', 'Block', header_format)
-        worksheet.write('K1', 'Физичка адреса', header_format)
+    worksheet.write('A1', 'Виртуелна адреса', header_format)
+    worksheet.write('B1', 'Тип', header_format)
+    worksheet.write('C1', 'User', header_format)
+    worksheet.write('D1', 'Segment', header_format)
+    worksheet.write('E1', 'Page', header_format)
+    worksheet.write('F1', 'Word', header_format)
+    worksheet.write('G1', 'Tag', header_format)
+    worksheet.write('H1', 'Entry', header_format)
+    worksheet.write('I1', 'Коментар', header_format)
+    worksheet.write('J1', 'Block', header_format)
+    worksheet.write('K1', 'Физичка адреса', header_format)
+
+    #Druga tabela
+    worksheet.conditional_format('B14:G39', {'type': 'cell',
+                                           'criteria': '>=',
+                                           'value': 0, 'format': cell_format})
+
+    worksheet.write('B13', 'Takt', header_format)
+    worksheet.write('C13', 'Addres Bus', header_format)
+    worksheet.write('D13', 'Ddata Bus', header_format)
+    worksheet.write('E13', 'rd', header_format)
+    worksheet.write('F13', 'wr', header_format)
+    worksheet.write('G13', 'ack', header_format)
 
     workbook.close()
+
 def make_an_excel_table():
     if subject.get() == 'ORT2':
         make_ORT2()
     elif subject.get() == 'AOR1 K2':
         make_AOR1_K2()
 
+def check_for_different_options(event):
+    if subject.get() == 'AOR1 K2':
+        combobox_choose_option['values'] = ()
+    else:
+        combobox_choose_option['values'] = ()
+        combobox_choose_option.set('')
+
 subject = tkinter.StringVar()
-combobox_choose_table = ttk.Combobox(window, textvariable=subject)
-combobox_choose_table['values'] = ('ORT2', 'AOR1 K2')
-combobox_choose_table['state'] = 'readonly'
-combobox_choose_table.pack()
+combobox_choose_subject = ttk.Combobox(window, textvariable=subject)
+combobox_choose_subject['values'] = ('ORT2', 'AOR1 K2')
+combobox_choose_subject['state'] = 'readonly'
+combobox_choose_subject.pack()
+combobox_choose_subject.bind('<<ComboboxSelected>>', check_for_different_options)
 
 button_generate_table = tkinter.Button(window, text = "Generiši tabelu", command = make_an_excel_table).pack()
 
-option = tkinter.IntVar()
-radiobutton_prva_opcija = tkinter.Radiobutton(window, text="Prva opcija", variable=option, value=1).pack()
-radiobutton_druga_opcija = tkinter.Radiobutton(window, text="Druga opcija", variable=option, value=2).pack()
-
+added_options = tkinter.Label(window, text = "Izaberi dodatne opcije(ako postoje):").pack()
+option = tkinter.StringVar()
+combobox_choose_option = ttk.Combobox(window, textvariable=option)
+combobox_choose_option['values'] = ()
+combobox_choose_option['state'] = 'readonly'
+combobox_choose_option.pack()
 
 window.mainloop()
 
