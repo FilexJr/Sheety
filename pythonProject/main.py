@@ -91,6 +91,9 @@ def make_ORT2():
     worksheet.merge_range('H23:J23', 'Нови садржај регистара и меморијских локација који су промењени у овој фази',
                           header_format)
 
+    format_vcenter = workbook.add_format()
+    format_vcenter.set_align("center", )
+    worksheet.set_column('A:XFD', None, format_vcenter)
     workbook.close()
 def make_AOR1_K2():
     workbook = xlsxwriter.Workbook('Test2.xlsx')
@@ -112,12 +115,18 @@ def make_AOR1_K2():
         {
             "border": 1,
             "text_wrap": 1,
+            "align": "center",
+            "valign": "vcenter",
             "bg_color": "#CCCCCC"
         }
     )
 
     worksheet.set_column("A:A", 14)
     worksheet.set_column("C:C", 12)
+    worksheet.set_column("M:M", 12)
+    worksheet.set_column("O:O", 12)
+    worksheet.set_column("P:P", 12)
+    worksheet.set_column("R:R", 20)
 
     # Prva tabela
     worksheet.conditional_format('A2:K9', {'type': 'cell',
@@ -148,6 +157,23 @@ def make_AOR1_K2():
     worksheet.write('F13', 'wr', header_format)
     worksheet.write('G13', 'ack', header_format)
 
+    #Treca Tabela
+    worksheet.conditional_format('K14:R39', {'type': 'cell',
+                                             'criteria': '>=',
+                                             'value': 0, 'format': cell_format})
+
+    worksheet.write('K13', 'Приспео', header_format)
+    worksheet.write('L13', 'Уређај', header_format)
+    worksheet.write('M13', 'Адреса', header_format)
+    worksheet.write('N13', 'Податак', header_format)
+    worksheet.write('O13', 'Операција', header_format)
+    worksheet.write('P13', 'Обрађено', header_format)
+    worksheet.write('Q13', 'Ack', header_format)
+    worksheet.write('R13', 'Нови захтеви', header_format)
+
+    format_vcenter = workbook.add_format()
+    format_vcenter.set_align("center",)
+    worksheet.set_column('A:XFD', None, format_vcenter)
     workbook.close()
 
 def make_an_excel_table():
